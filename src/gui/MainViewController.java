@@ -40,7 +40,7 @@ public class MainViewController implements Initializable{
 	// Ação Botão: Departamento.
 	@FXML
 	public void onMenuItemDepartamentoAction() {
-		System.out.println("Cadastrando Departamento!");
+		loadView("/gui/DepartmentList.fxml");
 	}
 	
 	// Ação Botão: Mais.
