@@ -54,7 +54,7 @@ public class MainViewController implements Initializable{
 		
 	}
 	
-	// Método para carregar tela about/mais.
+	// Método para carregar cenas.
 	public synchronized void loadView(String absolutName) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absolutName));
