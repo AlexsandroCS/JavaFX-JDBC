@@ -10,7 +10,18 @@ public class DepartmentService {
 	
 	private DepartmentDAO dao = DAOFactory.createDepartmentDAO();
 	
+	// Encontrando departamentos existentes.
 	public List<Department> findAll(){
 		return dao.findAll();
+	}
+	
+	// Salvando ou fazendo Update de departamentos.
+	public void saveOrUpdate(Department department) {
+		if(department.getId() == null) {
+			dao.insert(department);
+		}
+		else {
+			dao.update(department);
+		}
 	}
 }
