@@ -52,7 +52,8 @@ public class DepartmentListController implements Initializable{
 	@FXML
 	public void onButtonNewAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
-		createdDialogForm("/gui/DepartmentForm.fxml", parentStage);
+		Department newDepartment = new Department();
+		createdDialogForm(newDepartment, "/gui/DepartmentForm.fxml", parentStage);
 	}
 	
 	// --------------------- INVERSÃO DE CONTROLE ---------------------
@@ -83,10 +84,15 @@ public class DepartmentListController implements Initializable{
 		tableViewDepartment.prefHeightProperty().bind(stage.heightProperty());
 	}
 	
-	private void createdDialogForm(String absolutName, Stage parentStage) {
+	private void createdDialogForm(Department newDepartment, String absolutName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absolutName));
 			Pane pane = loader.load();
+			
+			// Referência do controlador
+			DepartmentFormController controller = loader.getController();
+			controller.setDepartment(newDepartment);
+			controller.updateFormData();
 			
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("Enter department data");
