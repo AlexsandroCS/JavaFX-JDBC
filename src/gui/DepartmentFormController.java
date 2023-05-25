@@ -1,9 +1,12 @@
 package gui;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import db.DBException;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
@@ -24,6 +27,8 @@ public class DepartmentFormController implements Initializable {
 	
 	// Dependência para o DepartmentService.
 	private DepartmentService service;
+	
+	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 
 	@FXML // ID
 	private TextField txtId;
@@ -35,6 +40,11 @@ public class DepartmentFormController implements Initializable {
 	private Button btSave;
 	@FXML // Botão Cancelar
 	private Button btCancel;
+	
+	// Implementando métodos do dataChangeListeners.
+	public void subscribeDataChangeListener(DataChangeListener listener) {
+		dataChangeListeners.add(listener);
+	}
 	
 	// Implementando o método Set do Department entity.
 	public void setDepartment(Department entity) {
@@ -65,6 +75,7 @@ public class DepartmentFormController implements Initializable {
 		try {
 			entity = getFormData();
 			service.saveOrUpdate(entity);
+			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
 		}
 		catch(DBException e) {
@@ -73,6 +84,13 @@ public class DepartmentFormController implements Initializable {
 		
 	}
 	
+	// Método de notificação de criação de novo departamento.
+	private void notifyDataChangeListeners() {
+		for (DataChangeListener listener : dataChangeListeners) {
+			listener.onDataChanged();
+		}
+	}
+
 	// Capturando objetos digitados no formulário do departamento.
 	private Department getFormData() {
 		Department newForm = new Department();
