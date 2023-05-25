@@ -4,9 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class Department implements Serializable {
-
-    // Serializable.
-    private static final long SerialVersionUID = 1L;
+	// Serializable.
+	private static final long serialVersionUID = 1L;
 
     // Atributes.
     private Integer id;
