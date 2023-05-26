@@ -1,9 +1,11 @@
 package gui;
 
 import java.net.URL;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -168,7 +170,32 @@ public class SellerFormController implements Initializable {
 		}
 
 		newForm.setName(txtName.getText());
+		
+		// Fazendo a verificação de possíveis erros do campo Name.
+		if (txtEmail.getText() == null || txtEmail.getText().trim().equals("")) {
+			exception.addError("Email", "Field can't be empty!");
+		}
 
+		newForm.setEmail(txtEmail.getText());
+
+		// Fazendo a verificação da Data de nascimento.
+		if (dpBirthDate.getValue() == null) {
+			exception.addError("Birth Date", "Field can't be empty!");
+		}
+		else {
+			Instant instant = Instant.from(dpBirthDate.getValue().atStartOfDay(ZoneId.systemDefault()));
+			newForm.setBirthDate(Date.from(instant));
+		}
+		
+		// Fazendo a verificação de possíveis erros do campo Name.
+		if (txtBaseSalary.getText() == null || txtBaseSalary.getText().trim().equals("")) {
+			exception.addError("BaseSalary", "Field can't be empty!");
+		}
+		
+		newForm.setBaseSalary(Utils.tryParseToDouble(txtBaseSalary.getText()));
+		
+		newForm.setDepartment(comboBoxDepartment.getValue());
+		
 		// Lançando exceções caso haja.
 		if (exception.getErrors().size() > 0) {
 			throw exception;
@@ -210,6 +237,30 @@ public class SellerFormController implements Initializable {
 
 		if (fields.contains("Name")) {
 			labelErrorName.setText(errors.get("Name"));
+		}
+		else {
+			labelErrorName.setText("");
+		}
+		
+		if (fields.contains("Email")) {
+			labelErrorEmail.setText(errors.get("Email"));
+		}
+		else {
+			labelErrorEmail.setText("");
+		}
+		
+		if (fields.contains("BaseSalary")) {
+			labelErrorSalary.setText(errors.get("BaseSalary"));
+		}
+		else {
+			labelErrorSalary.setText("");
+		}
+		
+		if (fields.contains("BirthDate")) {
+			labelErrorBirthDate.setText(errors.get("BirthDate"));
+		}
+		else {
+			labelErrorBirthDate.setText("");
 		}
 	}
 
