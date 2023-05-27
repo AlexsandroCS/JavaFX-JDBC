@@ -272,6 +272,7 @@ public class SellerFormController implements Initializable {
 				setText(empty ? "" : item.getName());
 			}
 		};
+		
 		comboBoxDepartment.setCellFactory(factory);
 		comboBoxDepartment.setButtonCell(factory.call(null));
 	}
